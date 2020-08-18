@@ -8,17 +8,32 @@
 
 import UIKit
 import CoreData
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Next"
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true;
+        checkLoggedUser()
+
         return true
     }
-
+    func checkLoggedUser() {
+         if helper.getApiToken() != nil {
+             // go to main screen
+             let sb = UIStoryboard(name: "Home", bundle: nil)
+             var vc: UIViewController
+             vc = sb.instantiateViewController(withIdentifier: "MainTabBar")
+             window?.rootViewController = vc
+         }
+     }
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
